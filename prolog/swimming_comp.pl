@@ -21,54 +21,68 @@
 		Mr. Rand's team, the green team, and Dan's team.
 */
 
-use_module( library(basics)).
-use_module(library(lists)).
+:- use_module(library(clpfd)).
 
-member(X,[X|T]).
-member(X,[H|T]) :- member(X,T).
+main() :- 
+    Tables = [TeamCapFirstName, TeamCapLastName, TeamColor, Event],
 
-teams([
-	camp(_,_,_,_,relayRace),
-	camp(_,rand,_,_,_),
-	camp(_,_,_,green,_),
-	camp(dan,_,_,_,_)
-]).
+    ForestRidge = 1, WoodlandPark = 2, WildRiver = 3, Lakeside = 4,
+    TeamCapFirstName = [Dan, Bill, Sam, Mark],
+    TeamCapLastName = [Smart, Manor, Brown, Rand],
+    TeamColor = [Blue, Red, Green, Purple],
+    Event = [Freestyle, Relay, OneMile, DrivingComp],
 
-constraints( Team ) :-
-		% 1
-		member(camp(sam, brown, _, _, _), Team),
+    % 1
+    Sam #= Brown,
+    Sam #\= WoodlandPark,
+    Sam #\= Purple,
+    Dan #\= ForestRidge,
+    Smart #= ForestRidge,
 
-		member(camp(_, smart, forestRidge, _, _), Team),
-		% 2
-		member(camp(_, _, woodlandPark, red, _), Team),
-		% 3
-		member(camp(mark, _, _, purple, _), Team),
-		% 4
-		member(camp(_, _, wildRiver, _, oneMileRace), Team).
-		% neg
-		% 1
-		% \+ member(camp(sam, brown, woodlandPark, _, _), Team),
-		% \+ member(camp(sam, brown, _, purple, _), Team),
-		% \+ member(camp(sam, brown, _, purple, _), Team),
-		% \+ member(camp(dan, _, forestRidge, _, _), Team),
-		% % 3
-		% \+ member(camp(mark, manor, _, _, _), Team),
-		% \+ member(camp(mark, smart, _, _, _), Team),
-		% \+ member(camp(_, _, lakeside, _, divingComp), Team),
-		% % 4
-		% \+ member(camp(_, _, forestRidge, red, _), Team),
-		% \+ member(camp(_, _, forestRidge, blue, _), Team),
-		% \+ member(camp(bill, _, _, _, freestyleRace), Team).
+    % 2
+    WoodlandPark #= Red,
 
+    % 3
+    Mark #\= Manor,
+    Mark #\= Smart,
+    Mark #= Purple,
+    Lakeside #\= DrivingComp,
 
-		%%%%%%%%%%%%%%%%%
-		% member(camp(_, _, _, _, relayRace), Team),
-		% member(camp(_, rand, _, _, _), Team),
-		% member(camp(_, _, _, green, _), Team),
-		% member(camp(dan, _, _, _, _), Team),
-		
-who(X) :- 
-		teams(Team),
-		constraints(Team),
-		member(camp(X, brown, _, _, _), Team).
-		
+    % 4
+    ForestRidge #\= Red,
+    ForestRidge #\= Blue,
+    WildRiver #= OneMile,
+
+    % 5
+    Bill #\= Freestyle,
+
+    % 6
+    Rand #\= Relay,
+    Rand #\= Green,
+    Rand #\= Dan,
+    Relay #\= Green,
+    Relay #\= Dan,
+    Dan #\= Green,
+
+    append(Tables, Vs),
+    Vs ins 1..4,
+    maplist(all_distinct, Tables),
+    label(Vs),
+    /*
+        Los arreglos que el programa imprime son los equipos
+        que corresponden para esa posición del arreglo.
+
+        Ejemplo: 
+        Equipos: ForestRidge = 1, WoodlandPark = 2, WildRiver = 3, Lakeside = 4
+        Arreglo inicial: TeamCapFirstName = [Dan, Bill, Sam, Mark]
+        Arreglo final: [2,1,4,3]
+        
+        Dan pertenece al equipo de WoodlandPark
+        Bill pertenece al equipo ForestRidge
+        Sam pertenece al aquipo Lakeside
+        Mark pertenece al equipo WildRiver
+    */
+    write(TeamCapFirstName), nl,
+    write(TeamCapLastName), nl,
+    write(TeamColor), nl,
+    write(Event), nl.
