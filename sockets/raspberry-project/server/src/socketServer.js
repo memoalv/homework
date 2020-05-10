@@ -5,10 +5,10 @@ const mongoModel = require("./mongoModel")
 class socketServer {
   constructor() {
     this.server = net.createServer((connection) => {
-      console.log("connection accepted")
+      console.log("[Connection accepted]")
 
       connection.on("end", () => {
-        console.log("connection closed")
+        console.log("[Connection closed]")
       })
 
       connection.on("data", async (data) => {
