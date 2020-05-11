@@ -1,0 +1,13 @@
+[Unit]
+Description=Ambient temperature and humidity logging service
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=python3 /home/pi/scripts/socketClient/main.py
+User=pi
+WorkingDirectory=/home/pi/scripts/socketClient
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

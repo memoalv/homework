@@ -1,0 +1,13 @@
+[Unit]
+Description=Node.js Socket Server
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=node /home/pi/scripts/socketServer/index.js
+User=pi
+WorkingDirectory=/home/pi/scripts/socketServer
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
