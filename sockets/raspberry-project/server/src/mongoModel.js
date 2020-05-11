@@ -41,7 +41,7 @@ class mongoModel {
   }
 
   parseValue(val) {
-    return parseInt(val) / 1000
+    return parseFloat(val)
   }
 }
 

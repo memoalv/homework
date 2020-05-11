@@ -16,11 +16,17 @@ class socketServer {
         const receivedData = JSON.parse(data.toString())
 
         if (receivedData.type == "tempLog") {
+          const response = {}
           try {
             await mongo.saveData(receivedData)
-            connection.write("1")
+
+            response.status  = 1
+            response.message = "Success"
+            connection.write(JSON.stringify(response))
           } catch (e) {
-            connection.write("0")
+            response.status  = 0
+            response.message = "An error ocurred while trying to save the data"
+            connection.write(JSON.stringify(response))
           } finally {
             // close client's connection
             connection.pipe(connection)
