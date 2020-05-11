@@ -1,15 +1,15 @@
 const net = require('net');
-const client = net.connect({port: 8080}, () => {
+
+const client = net.connect({ host: '192.168.0.55', port: 8080 }, () => {
    console.log('connected to server!');  
 });
 
 // client establishes a conection
 client.on('connect', () => {
-
    const dummyData = {
       type: 'tempLog',
-      temp: 34000,
-      hum: 32000
+      temp: 40000,
+      hum: 40000
    }
 
    client.write(JSON.stringify(dummyData))
